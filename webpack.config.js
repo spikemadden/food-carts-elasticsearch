@@ -11,7 +11,7 @@ module.exports = {
             test: /\.js$/,
             loader: 'babel-loader',
             query: {
-                presets: ['env', 'react']
+                presets: ['env', 'react', 'stage-2']
             }
         },
         ]

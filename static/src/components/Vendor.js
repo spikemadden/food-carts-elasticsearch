@@ -1,20 +1,19 @@
 var React = require('react');
 
-var Vendor = React.createClass({
-    getInitialState() {
-        return { isExpanded: false }
-    },
+class Vendor extends React.Component {
+    state = { isExpanded: false };
 
-    toggleExpand() {
+    toggleExpand = () => {
         this.setState({
             isExpanded: !this.state.isExpanded
         });
-    },
+    };
+
     render() {
-        var r = this.props.data;
+        let r = this.props.data;
         return (
           <li onMouseEnter={this.props.handleHover.bind(null, r.name)} onClick={this.toggleExpand}>
-            <p className="truck-name">{ r.name }</p>
+            <p className="cart-name">{ r.name }</p>
 
             <div className="row">
               <div className="icons"> <i className="ion-android-pin"></i> </div>
@@ -23,6 +22,6 @@ var Vendor = React.createClass({
           </li>
        )
     }
-});
+}
 
 module.exports = Vendor;

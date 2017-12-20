@@ -1,6 +1,6 @@
-var React = require('react');
+let React = require('react');
 
-var Intro = React.createClass({
+class Intro extends React.Component {
     render() {
         return (
         <div className="intro">
@@ -9,6 +9,6 @@ var Intro = React.createClass({
         </div>
       )
     }
-});
+}
 
 module.exports = Intro;

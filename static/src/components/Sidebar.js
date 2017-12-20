@@ -3,15 +3,14 @@ let request = require('superagent');
 let Intro = require('./Intro');
 let Vendor = require('./Vendor');
 
-let Sidebar = React.createClass({
-  getInitialState() {
-    return {
-      results: [],
-      query: "",
-      firstLoad: true
-    }
-  },
-  fetchResults() {
+class Sidebar extends React.Component {
+  state = {
+    results: [],
+    query: "",
+    firstLoad: true
+  };
+
+  fetchResults = () => {
     let results = []
     let query = this.state.query;
     request
@@ -28,8 +27,9 @@ let Sidebar = React.createClass({
           this.plotOnMap();
         }
       }.bind(this));
-  },
-  build_geojson(carts) {
+  };
+
+  build_geojson = (carts) => {
     return {
       "type": "FeatureCollection",
       "features": carts.map(function(c) {
@@ -47,12 +47,11 @@ let Sidebar = React.createClass({
         }
       })
     }
-  },
-  plotOnMap(vendor) {
-    console.log("do we ever make it here");
+  };
+
+  plotOnMap = (vendor) => {
     let map = this.props.map;
     let results = this.state.results;
-    console.log(results);
     let markers = [].concat.apply([], results.carts.map(function(c) {
                         return {
                           name: c.name,
@@ -61,8 +60,7 @@ let Sidebar = React.createClass({
                           latitude: c.latitude
                         }
                       }));
-    console.log("made it past");
-    console.log(markers[0]);
+
     let highlightMarkers, usualMarkers, usualgeoJSON, highlightgeoJSON;
 
     if (vendor) {
@@ -90,8 +88,6 @@ let Sidebar = React.createClass({
     if (map.getSource("carts-highlight")) {
         map.removeSource("carts-highlight");
     }
-
-    console.log(usualgeoJSON);
 
     map.addSource("carts", {
       "type": "geojson",
@@ -122,18 +118,21 @@ let Sidebar = React.createClass({
           },
       });
     }
-  },
-  handleSearch(e) {
+  };
+
+  handleSearch = (e) => {
       e.preventDefault();
       this.fetchResults();
-  },
-  onChange(e) {
+  };
+
+  onChange = (e) => {
       this.setState({query: e.target.value});
-  },
-  handleHover(vendorName) {
-      console.log("here");
+  };
+
+  handleHover = (vendorName) => {
       this.plotOnMap(vendorName);
-  },
+  };
+
   render() {
     if (this.state.firstLoad) {
       return (
@@ -176,6 +175,6 @@ let Sidebar = React.createClass({
       </div>
     );
   }
-});
+}
 
 module.exports = Sidebar;

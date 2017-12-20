@@ -20035,150 +20035,189 @@ module.exports = __webpack_require__(52);
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var React = __webpack_require__(23);
 var request = __webpack_require__(161);
 var Intro = __webpack_require__(167);
 var Vendor = __webpack_require__(168);
 
-var Sidebar = React.createClass({
-  displayName: 'Sidebar',
-  getInitialState: function getInitialState() {
-    return {
+var Sidebar = function (_React$Component) {
+  _inherits(Sidebar, _React$Component);
+
+  function Sidebar() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Sidebar);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       results: [],
       query: "",
       firstLoad: true
-    };
-  },
-  fetchResults: function fetchResults() {
-    var results = [];
-    var query = this.state.query;
-    request.get('/search?q=' + query).end(function (err, res) {
-      if (err) {
-        alert("error in fetching response");
-      } else {
-        this.setState({
-          results: res.body,
-          firstLoad: false
-        });
-        this.plotOnMap();
-      }
-    }.bind(this));
-  },
-  build_geojson: function build_geojson(carts) {
-    return {
-      "type": "FeatureCollection",
-      "features": carts.map(function (c) {
-        return {
-          "type": "Feature",
-          "properties": {
-            "name": c.name,
-            "address": c.address
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [parseFloat(c.longitude), parseFloat(c.latitude)]
-          }
-        };
-      })
-    };
-  },
-  plotOnMap: function plotOnMap(vendor) {
-    console.log("do we ever make it here");
-    var map = this.props.map;
-    var results = this.state.results;
-    console.log(results);
-    var markers = [].concat.apply([], results.carts.map(function (c) {
+    }, _this.fetchResults = function () {
+      var results = [];
+      var query = _this.state.query;
+      request.get('/search?q=' + query).end(function (err, res) {
+        if (err) {
+          alert("error in fetching response");
+        } else {
+          this.setState({
+            results: res.body,
+            firstLoad: false
+          });
+          this.plotOnMap();
+        }
+      }.bind(_this));
+    }, _this.build_geojson = function (carts) {
       return {
-        name: c.name,
-        address: c.address,
-        longitude: c.longitude,
-        latitude: c.latitude
+        "type": "FeatureCollection",
+        "features": carts.map(function (c) {
+          return {
+            "type": "Feature",
+            "properties": {
+              "name": c.name,
+              "address": c.address
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [parseFloat(c.longitude), parseFloat(c.latitude)]
+            }
+          };
+        })
       };
-    }));
-    console.log("made it past");
-    console.log(markers[0]);
-    var highlightMarkers = void 0,
-        usualMarkers = void 0,
-        usualgeoJSON = void 0,
-        highlightgeoJSON = void 0;
+    }, _this.plotOnMap = function (vendor) {
+      var map = _this.props.map;
+      var results = _this.state.results;
+      var markers = [].concat.apply([], results.carts.map(function (c) {
+        return {
+          name: c.name,
+          address: c.address,
+          longitude: c.longitude,
+          latitude: c.latitude
+        };
+      }));
 
-    if (vendor) {
-      highlightMarkers = markers.filter(function (m) {
-        return m.name.toLowerCase() === vendor.toLowerCase();
-      });
-      usualMarkers = markers.filter(function (m) {
-        return m.name.toLowerCase() !== vendor.toLowerCase();
-      });
-    } else {
-      usualMarkers = markers;
-    }
+      var highlightMarkers = void 0,
+          usualMarkers = void 0,
+          usualgeoJSON = void 0,
+          highlightgeoJSON = void 0;
 
-    usualgeoJSON = this.build_geojson(usualMarkers);
-    if (highlightMarkers) {
-      highlightgeoJSON = this.build_geojson(highlightMarkers);
-    }
-
-    // clearing layers
-    if (map.getLayer("carts")) {
-      map.removeLayer("carts");
-    }
-    if (map.getSource("carts")) {
-      map.removeSource("carts");
-    }
-    if (map.getLayer("carts-highlight")) {
-      map.removeLayer("carts-highlight");
-    }
-    if (map.getSource("carts-highlight")) {
-      map.removeSource("carts-highlight");
-    }
-
-    console.log(usualgeoJSON);
-
-    map.addSource("carts", {
-      "type": "geojson",
-      "data": usualgeoJSON
-    }).addLayer({
-      "id": "carts",
-      "type": "circle",
-      "interactive": true,
-      "source": "carts",
-      "paint": {
-        'circle-radius': 8,
-        'circle-color': '#c4daff'
+      if (vendor) {
+        highlightMarkers = markers.filter(function (m) {
+          return m.name.toLowerCase() === vendor.toLowerCase();
+        });
+        usualMarkers = markers.filter(function (m) {
+          return m.name.toLowerCase() !== vendor.toLowerCase();
+        });
+      } else {
+        usualMarkers = markers;
       }
-    });
 
-    if (highlightMarkers) {
-      map.addSource("carts-highlight", {
+      usualgeoJSON = _this.build_geojson(usualMarkers);
+      if (highlightMarkers) {
+        highlightgeoJSON = _this.build_geojson(highlightMarkers);
+      }
+
+      // clearing layers
+      if (map.getLayer("carts")) {
+        map.removeLayer("carts");
+      }
+      if (map.getSource("carts")) {
+        map.removeSource("carts");
+      }
+      if (map.getLayer("carts-highlight")) {
+        map.removeLayer("carts-highlight");
+      }
+      if (map.getSource("carts-highlight")) {
+        map.removeSource("carts-highlight");
+      }
+
+      map.addSource("carts", {
         "type": "geojson",
-        "data": highlightgeoJSON
+        "data": usualgeoJSON
       }).addLayer({
-        "id": "carts-highlight",
+        "id": "carts",
         "type": "circle",
         "interactive": true,
-        "source": "carts-highlight",
+        "source": "carts",
         "paint": {
           'circle-radius': 8,
-          'circle-color': '#ff8484'
+          'circle-color': '#c4daff'
         }
       });
-    }
-  },
-  handleSearch: function handleSearch(e) {
-    e.preventDefault();
-    this.fetchResults();
-  },
-  onChange: function onChange(e) {
-    this.setState({ query: e.target.value });
-  },
-  handleHover: function handleHover(vendorName) {
-    console.log("here");
-    this.plotOnMap(vendorName);
-  },
-  render: function render() {
-    var _this = this;
 
-    if (this.state.firstLoad) {
+      if (highlightMarkers) {
+        map.addSource("carts-highlight", {
+          "type": "geojson",
+          "data": highlightgeoJSON
+        }).addLayer({
+          "id": "carts-highlight",
+          "type": "circle",
+          "interactive": true,
+          "source": "carts-highlight",
+          "paint": {
+            'circle-radius': 8,
+            'circle-color': '#ff8484'
+          }
+        });
+      }
+    }, _this.handleSearch = function (e) {
+      e.preventDefault();
+      _this.fetchResults();
+    }, _this.onChange = function (e) {
+      _this.setState({ query: e.target.value });
+    }, _this.handleHover = function (vendorName) {
+      _this.plotOnMap(vendorName);
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  _createClass(Sidebar, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      if (this.state.firstLoad) {
+        return React.createElement(
+          'div',
+          null,
+          React.createElement(
+            'div',
+            { id: 'search-area' },
+            React.createElement(
+              'form',
+              { onSubmit: this.handleSearch },
+              React.createElement('input', { type: 'text', value: query, onChange: this.onChange,
+                placeholder: 'What do you want to eat?' }),
+              React.createElement(
+                'button',
+                null,
+                'Search!'
+              )
+            )
+          ),
+          React.createElement(Intro, null)
+        );
+      }
+
+      var query = this.state.query;
+      var resultsCount = this.state.results.hits || 0;
+      var results = this.state.results.carts || [];
+      var renderedResults = results.map(function (r, i) {
+        return React.createElement(Vendor, { key: i, data: r, handleHover: _this2.handleHover });
+      });
+
       return React.createElement(
         'div',
         null,
@@ -20197,60 +20236,34 @@ var Sidebar = React.createClass({
             )
           )
         ),
-        React.createElement(Intro, null)
+        resultsCount > 0 ? React.createElement(
+          'div',
+          { id: 'results-area' },
+          React.createElement(
+            'h5',
+            null,
+            'Found ',
+            React.createElement(
+              'span',
+              { className: 'highlight' },
+              resultsCount
+            ),
+            ' vendors!'
+          ),
+          React.createElement(
+            'ul',
+            null,
+            ' ',
+            renderedResults,
+            ' '
+          )
+        ) : null
       );
     }
+  }]);
 
-    var query = this.state.query;
-    var resultsCount = this.state.results.hits || 0;
-    var results = this.state.results.carts || [];
-    var renderedResults = results.map(function (r, i) {
-      return React.createElement(Vendor, { key: i, data: r, handleHover: _this.handleHover });
-    });
-
-    return React.createElement(
-      'div',
-      null,
-      React.createElement(
-        'div',
-        { id: 'search-area' },
-        React.createElement(
-          'form',
-          { onSubmit: this.handleSearch },
-          React.createElement('input', { type: 'text', value: query, onChange: this.onChange,
-            placeholder: 'What do you want to eat?' }),
-          React.createElement(
-            'button',
-            null,
-            'Search!'
-          )
-        )
-      ),
-      resultsCount > 0 ? React.createElement(
-        'div',
-        { id: 'results-area' },
-        React.createElement(
-          'h5',
-          null,
-          'Found ',
-          React.createElement(
-            'span',
-            { className: 'highlight' },
-            resultsCount
-          ),
-          ' vendors!'
-        ),
-        React.createElement(
-          'ul',
-          null,
-          ' ',
-          renderedResults,
-          ' '
-        )
-      ) : null
-    );
-  }
-});
+  return Sidebar;
+}(React.Component);
 
 module.exports = Sidebar;
 
@@ -22301,27 +22314,47 @@ module.exports = Agent;
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var React = __webpack_require__(23);
 
-var Intro = React.createClass({
-    displayName: "Intro",
-    render: function render() {
-        return React.createElement(
-            "div",
-            { className: "intro" },
-            React.createElement(
-                "h3",
-                null,
-                "About"
-            ),
-            React.createElement(
-                "p",
-                null,
-                "an intro message will go here explaining the application"
-            )
-        );
+var Intro = function (_React$Component) {
+    _inherits(Intro, _React$Component);
+
+    function Intro() {
+        _classCallCheck(this, Intro);
+
+        return _possibleConstructorReturn(this, (Intro.__proto__ || Object.getPrototypeOf(Intro)).apply(this, arguments));
     }
-});
+
+    _createClass(Intro, [{
+        key: "render",
+        value: function render() {
+            return React.createElement(
+                "div",
+                { className: "intro" },
+                React.createElement(
+                    "h3",
+                    null,
+                    "About"
+                ),
+                React.createElement(
+                    "p",
+                    null,
+                    "an intro message will go here explaining the application"
+                )
+            );
+        }
+    }]);
+
+    return Intro;
+}(React.Component);
 
 module.exports = Intro;
 
@@ -22332,47 +22365,71 @@ module.exports = Intro;
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var React = __webpack_require__(23);
 
-var Vendor = React.createClass({
-    displayName: "Vendor",
-    getInitialState: function getInitialState() {
-        return { isExpanded: false };
-    },
-    toggleExpand: function toggleExpand() {
-        this.setState({
-            isExpanded: !this.state.isExpanded
-        });
-    },
-    render: function render() {
-        var r = this.props.data;
-        return React.createElement(
-            "li",
-            { onMouseEnter: this.props.handleHover.bind(null, r.name), onClick: this.toggleExpand },
-            React.createElement(
-                "p",
-                { className: "truck-name" },
-                r.name
-            ),
-            React.createElement(
-                "div",
-                { className: "row" },
+var Vendor = function (_React$Component) {
+    _inherits(Vendor, _React$Component);
+
+    function Vendor() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, Vendor);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Vendor.__proto__ || Object.getPrototypeOf(Vendor)).call.apply(_ref, [this].concat(args))), _this), _this.state = { isExpanded: false }, _this.toggleExpand = function () {
+            _this.setState({
+                isExpanded: !_this.state.isExpanded
+            });
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(Vendor, [{
+        key: "render",
+        value: function render() {
+            var r = this.props.data;
+            return React.createElement(
+                "li",
+                { onMouseEnter: this.props.handleHover.bind(null, r.name), onClick: this.toggleExpand },
                 React.createElement(
-                    "div",
-                    { className: "icons" },
-                    " ",
-                    React.createElement("i", { className: "ion-android-pin" }),
-                    " "
+                    "p",
+                    { className: "cart-name" },
+                    r.name
                 ),
                 React.createElement(
                     "div",
-                    { className: "content" },
-                    r.address
+                    { className: "row" },
+                    React.createElement(
+                        "div",
+                        { className: "icons" },
+                        " ",
+                        React.createElement("i", { className: "ion-android-pin" }),
+                        " "
+                    ),
+                    React.createElement(
+                        "div",
+                        { className: "content" },
+                        r.address
+                    )
                 )
-            )
-        );
-    }
-});
+            );
+        }
+    }]);
+
+    return Vendor;
+}(React.Component);
 
 module.exports = Vendor;
 

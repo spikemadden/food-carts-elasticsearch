@@ -57,7 +57,6 @@ div#heading {
 div#heading h1 {
     font-size: 25px;
     text-transform: uppercase;
-    text-shadow: -2px 2px black;
     margin: 0;
     color: #ff8484;
 }
@@ -79,7 +78,7 @@ div#search-area button {
     border: none;
 }
 div#search-area input {
-    width: 195px;
+    width: 250px;
 }
 div#search-area button {
     background: #c4daff;
@@ -121,7 +120,7 @@ div#results-area ul li p {
     font-size: 14px;
 }
 
-div#results-area ul li p.truck-name {
+div#results-area ul li p.cart-name {
     color: #c4daff;
     text-transform: uppercase;
     margin: 0;
