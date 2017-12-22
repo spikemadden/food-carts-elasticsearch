@@ -9,14 +9,18 @@ html, body {
 i { color: #3A3A3A; }
 
 div.intro a,
-div.intro a:visited { color: #c4daff; }
+div.intro a:visited { color: #072844; }
 div.intro {
     padding: 10px;
 }
 
 div.intro h3 {
-    color: #c4daff;
+    color: #072844;
     text-transform: uppercase;
+}
+
+div.intro p {
+  color: #282828;
 }
 
 h1 i {
@@ -29,14 +33,14 @@ textarea, input, button {
 }
 
 .container {
-  height: 90vh;
+  height: 94vh;
   display: flex;
 }
 
 #map { flex: 3; }
 
 #sidebar {
-    background: #4f4e4e;
+    background: #D2B48C;
     border-left: 1px solid #444444;
     width: 320px;
     flex: 1;
@@ -48,9 +52,9 @@ textarea, input, button {
 }
 
 div#heading {
-    background: #c4daff;
+    background: #072844;
     margin: 0;
-    height: 10vh;
+    height: 6vh;
     text-align: center;
 }
 
@@ -58,13 +62,7 @@ div#heading h1 {
     font-size: 25px;
     text-transform: uppercase;
     margin: 0;
-    color: #ff8484;
-}
-
-div#heading p {
-    color: black;
-    font-size: 12px;
-    margin: 0;
+    color: #D2B48C;
 }
 
 div#search-area {
@@ -81,9 +79,10 @@ div#search-area input {
     width: 250px;
 }
 div#search-area button {
-    background: #c4daff;
+    background: #072844;
     font-weight: 600;
     text-transform: uppercase;
+    color: #D2B48C;
 }
 
 div#results-area {
@@ -93,10 +92,10 @@ div#results-area h5 {
     font-weight: 200;
     font-style: italic;
     margin: 0;
-    color: #ddd;
+    color: #282828;
 }
 div#results-area h5 span.highlight {
-    color: #c4daff;
+    color: #072844;
     font-weight: 600;
 }
 div#results-area ul {
@@ -112,7 +111,7 @@ div#results-area ul li {
 }
 
 div#results-area ul li:hover {
-    border: 1px solid #c4daff;
+    border: 1px solid #072844;
 }
 
 div#results-area ul li p {
@@ -121,7 +120,7 @@ div#results-area ul li p {
 }
 
 div#results-area ul li p.cart-name {
-    color: #c4daff;
+    color: #072844;
     text-transform: uppercase;
     margin: 0;
     font-size: 16px;
@@ -138,6 +137,11 @@ div#results-area ul li div.row div.content {
     order: 2;
     width: 230px;
     margin-left: 10px;
+    color: #282828;
+}
+
+div#results-area ul li div.row a {
+  color: #282828;
 }
 
 .mapboxgl-popup-content {
@@ -155,7 +159,7 @@ div#results-area ul li div.row div.content {
     color: white;
 }
 .mapboxgl-popup-content .marker-title {
-    color: #c4daff;
+    color: #D2B48C;
     text-transform: uppercase;
     font-size: 14px;
 }

@@ -20088,7 +20088,8 @@ var Sidebar = function (_React$Component) {
             "type": "Feature",
             "properties": {
               "name": c.name,
-              "address": c.address
+              "address": c.address,
+              "url": c.url
             },
             "geometry": {
               "type": "Point",
@@ -20154,7 +20155,7 @@ var Sidebar = function (_React$Component) {
         "source": "carts",
         "paint": {
           'circle-radius': 8,
-          'circle-color': '#c4daff'
+          'circle-color': '#072844'
         }
       });
 
@@ -20169,7 +20170,7 @@ var Sidebar = function (_React$Component) {
           "source": "carts-highlight",
           "paint": {
             'circle-radius': 8,
-            'circle-color': '#ff8484'
+            'circle-color': '#D2B48C'
           }
         });
       }
@@ -22325,35 +22326,57 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var React = __webpack_require__(23);
 
 var Intro = function (_React$Component) {
-    _inherits(Intro, _React$Component);
+  _inherits(Intro, _React$Component);
 
-    function Intro() {
-        _classCallCheck(this, Intro);
+  function Intro() {
+    _classCallCheck(this, Intro);
 
-        return _possibleConstructorReturn(this, (Intro.__proto__ || Object.getPrototypeOf(Intro)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Intro.__proto__ || Object.getPrototypeOf(Intro)).apply(this, arguments));
+  }
+
+  _createClass(Intro, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "div",
+        { className: "intro" },
+        React.createElement(
+          "h3",
+          null,
+          "About"
+        ),
+        React.createElement(
+          "p",
+          null,
+          "This application is a personal project that served as an introduction to React and fullstack development in general."
+        ),
+        React.createElement(
+          "p",
+          null,
+          "This application is built with Flask and Elasticsearch on the backend. The frontend is built with React and Mapbox."
+        ),
+        React.createElement(
+          "p",
+          null,
+          "Thank you to ",
+          React.createElement(
+            "a",
+            { href: "https://www.yelp.com/developers/documentation/v3/business_search" },
+            "Yelp Fusion"
+          ),
+          " - Business Search API for food cart information and ",
+          React.createElement(
+            "a",
+            { href: "https://github.com/prakhar1989/FoodTrucks" },
+            "prakhar1989"
+          ),
+          " on GitHub for inspiration on this project."
+        )
+      );
     }
+  }]);
 
-    _createClass(Intro, [{
-        key: "render",
-        value: function render() {
-            return React.createElement(
-                "div",
-                { className: "intro" },
-                React.createElement(
-                    "h3",
-                    null,
-                    "About"
-                ),
-                React.createElement(
-                    "p",
-                    null,
-                    "an intro message will go here explaining the application"
-                )
-            );
-        }
-    }]);
-
-    return Intro;
+  return Intro;
 }(React.Component);
 
 module.exports = Intro;
@@ -22376,59 +22399,67 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var React = __webpack_require__(23);
 
 var Vendor = function (_React$Component) {
-    _inherits(Vendor, _React$Component);
+  _inherits(Vendor, _React$Component);
 
-    function Vendor() {
-        var _ref;
+  function Vendor() {
+    _classCallCheck(this, Vendor);
 
-        var _temp, _this, _ret;
+    return _possibleConstructorReturn(this, (Vendor.__proto__ || Object.getPrototypeOf(Vendor)).apply(this, arguments));
+  }
 
-        _classCallCheck(this, Vendor);
-
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Vendor.__proto__ || Object.getPrototypeOf(Vendor)).call.apply(_ref, [this].concat(args))), _this), _this.state = { isExpanded: false }, _this.toggleExpand = function () {
-            _this.setState({
-                isExpanded: !_this.state.isExpanded
-            });
-        }, _temp), _possibleConstructorReturn(_this, _ret);
+  _createClass(Vendor, [{
+    key: "render",
+    value: function render() {
+      var r = this.props.data;
+      return React.createElement(
+        "li",
+        { onMouseEnter: this.props.handleHover.bind(null, r.name) },
+        React.createElement(
+          "p",
+          { className: "cart-name" },
+          r.name
+        ),
+        React.createElement(
+          "div",
+          { className: "row" },
+          React.createElement(
+            "div",
+            { className: "icons" },
+            " ",
+            React.createElement("i", { className: "ion-android-pin" }),
+            " "
+          ),
+          React.createElement(
+            "div",
+            { className: "content" },
+            r.address
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "row" },
+          React.createElement(
+            "div",
+            { className: "icons" },
+            " ",
+            React.createElement("i", { className: "ion-search" }),
+            " "
+          ),
+          React.createElement(
+            "div",
+            { className: "content" },
+            React.createElement(
+              "a",
+              { href: r.url, target: "yelp" },
+              "Yelp"
+            )
+          )
+        )
+      );
     }
+  }]);
 
-    _createClass(Vendor, [{
-        key: "render",
-        value: function render() {
-            var r = this.props.data;
-            return React.createElement(
-                "li",
-                { onMouseEnter: this.props.handleHover.bind(null, r.name), onClick: this.toggleExpand },
-                React.createElement(
-                    "p",
-                    { className: "cart-name" },
-                    r.name
-                ),
-                React.createElement(
-                    "div",
-                    { className: "row" },
-                    React.createElement(
-                        "div",
-                        { className: "icons" },
-                        " ",
-                        React.createElement("i", { className: "ion-android-pin" }),
-                        " "
-                    ),
-                    React.createElement(
-                        "div",
-                        { className: "content" },
-                        r.address
-                    )
-                )
-            );
-        }
-    }]);
-
-    return Vendor;
+  return Vendor;
 }(React.Component);
 
 module.exports = Vendor;

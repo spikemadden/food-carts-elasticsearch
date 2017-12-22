@@ -37,7 +37,8 @@ class Sidebar extends React.Component {
           "type": "Feature",
           "properties": {
             "name": c.name,
-            "address": c.address
+            "address": c.address,
+            "url": c.url
           },
           "geometry": {
             "type": "Point",
@@ -99,7 +100,7 @@ class Sidebar extends React.Component {
         "source": "carts",
         "paint": {
           'circle-radius': 8,
-          'circle-color': '#c4daff'
+          'circle-color': '#072844'
         },
     });
 
@@ -114,7 +115,7 @@ class Sidebar extends React.Component {
           "source": "carts-highlight",
           "paint": {
             'circle-radius': 8,
-            'circle-color': '#ff8484'
+            'circle-color': '#D2B48C'
           },
       });
     }

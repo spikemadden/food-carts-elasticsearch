@@ -30,21 +30,6 @@ def search():
             "msg": "Please provide a query"
         })
     try:
-        ########################################################################
-
-        # PROBABLY NEED TO FIX THIS TO USE NGRAMS
-        # WILDCARD MATCH IS PROBABLY GOING TO BE TOO SLOW
-
-        ########################################################################
-
-        # query = json.dumps({
-        #     "query": {
-        #         "multi_match": {
-        #             "query": "newamerican",
-        #             "fields": ["name", "categories.alias", "categories.title"]
-        #         }
-        #     }
-        # })
         param = "*" + query_string + "*"
 
         query = json.dumps({
@@ -67,20 +52,27 @@ def search():
     print("Got %d Hits:" % res['hits']['total'])
 
     results = {"carts": []}
+    skipped = 0
 
     for hit in res['hits']['hits']:
-        cart = {
-            "name": hit["_source"]["name"],
-            "address": hit["_source"]["location"]["address1"],
-            "latitude": hit["_source"]["coordinates"]["latitude"],
-            "longitude": hit["_source"]["coordinates"]["longitude"]
-        }
+        # if the name or address isn't listed
+        # skip it
+        if not hit["_source"]["name"] or not hit["_source"]["location"]["address1"]:
+            skipped += 1
+        else:
+            cart = {
+                "name": hit["_source"]["name"],
+                "address": hit["_source"]["location"]["address1"],
+                "latitude": hit["_source"]["coordinates"]["latitude"],
+                "longitude": hit["_source"]["coordinates"]["longitude"],
+                "url": hit["_source"]["url"]
+            }
 
-        results["carts"].append(cart)
+            results["carts"].append(cart)
 
     return jsonify({
         "status": "success",
-        "hits": res['hits']['total'],
+        "hits": res['hits']['total'] - skipped,
         "carts": results["carts"],
     })
 
