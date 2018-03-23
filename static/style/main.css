@@ -40,7 +40,7 @@ textarea, input, button {
 #map { flex: 3; }
 
 #sidebar {
-    background: #D2B48C;
+    background: #FAEBD7;
     border-left: 1px solid #444444;
     width: 320px;
     flex: 1;
@@ -62,7 +62,7 @@ div#heading h1 {
     font-size: 25px;
     text-transform: uppercase;
     margin: 0;
-    color: #D2B48C;
+    color: #FAEBD7;
 }
 
 div#search-area {
@@ -82,7 +82,7 @@ div#search-area button {
     background: #072844;
     font-weight: 600;
     text-transform: uppercase;
-    color: #D2B48C;
+    color: #FAEBD7;
 }
 
 div#results-area {
@@ -159,7 +159,7 @@ div#results-area ul li div.row a {
     color: white;
 }
 .mapboxgl-popup-content .marker-title {
-    color: #D2B48C;
+    color: #FAEBD7;
     text-transform: uppercase;
     font-size: 14px;
 }

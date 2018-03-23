@@ -115,7 +115,7 @@ class Sidebar extends React.Component {
           "source": "carts-highlight",
           "paint": {
             'circle-radius': 8,
-            'circle-color': '#D2B48C'
+            'circle-color': '#FAD8DE'
           },
       });
     }

@@ -12,7 +12,7 @@ let results = [];
 let offset = 0;
 
 // we can only get 1000 results
-while (offset <= 950) {
+while (offset <= 450) {
 
   let search_request = {
     term:'food carts',
