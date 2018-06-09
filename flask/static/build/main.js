@@ -997,13 +997,25 @@ map.on('click', 'carts', function (e) {
     new mapboxgl.Popup().setLngLat(e.features[0].geometry.coordinates).setHTML(format_html_marker(e.features[0].properties)).addTo(map);
 });
 
+map.on('click', 'carts-highlight', function (e) {
+    new mapboxgl.Popup().setLngLat(e.features[0].geometry.coordinates).setHTML(format_html_marker(e.features[0].properties)).addTo(map);
+});
+
 // change the cursor to a pointer when the mouse is over the carts layer.
 map.on('mouseenter', 'carts', function () {
     map.getCanvas().style.cursor = 'pointer';
 });
 
+map.on('mouseenter', 'carts-highlight', function () {
+    map.getCanvas().style.cursor = 'pointer';
+});
+
 // change it back to a pointer when it leaves.
 map.on('mouseleave', 'carts', function () {
+    map.getCanvas().style.cursor = '';
+});
+
+map.on('mouseleave', 'carts-highlight', function () {
     map.getCanvas().style.cursor = '';
 });
 
