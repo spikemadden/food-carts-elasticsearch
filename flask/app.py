@@ -3,15 +3,14 @@ from elasticsearch import Elasticsearch
 import json
 
 app = Flask(__name__)
-
-es = Elasticsearch()
+es = Elasticsearch('es')
 
 def load_data():
-    with open('../yelp/carts.json') as json_data:
+    with open('yelp/carts.json') as json_data:
         d = json.load(json_data)
 
         for id, cart in enumerate(d):
-            response = es.index(index="yelp_data", doc_type="cart", id=id, body=cart)
+            es.index(index="yelp_data", doc_type="cart", id=id, body=cart)
 
         print "total carts loaded: ", len(d)
 
@@ -79,4 +78,4 @@ def search():
 
 if __name__ == "__main__":
     load_data()
-    app.run(host = 'localhost', port = 8000)
+    app.run(host='0.0.0.0', port=8000)
