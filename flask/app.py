@@ -7,7 +7,7 @@ app = Flask(__name__)
 es = Elasticsearch()
 
 def load_data():
-    with open('yelp/carts.json') as json_data:
+    with open('../yelp/carts.json') as json_data:
         d = json.load(json_data)
 
         for id, cart in enumerate(d):
