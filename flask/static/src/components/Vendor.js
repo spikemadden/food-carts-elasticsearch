@@ -4,7 +4,7 @@ class Vendor extends React.Component {
     render() {
         let r = this.props.data;
         return (
-          <li onMouseEnter={this.props.handleHover.bind(null, r.name)}>
+          <li onClick={this.props.onClick.bind(null, r.name)} onMouseEnter={this.props.handleHover.bind(null, r.name)}>
             <p className="cart-name">{r.name}</p>
 
             <div className="row">
