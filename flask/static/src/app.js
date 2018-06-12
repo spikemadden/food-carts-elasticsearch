@@ -17,43 +17,44 @@ ReactDOM.render(
 );
 
 function format_html_marker(props) {
-  let {name, address} = props;
-  let html = "<div class=\"marker-title\">" + name + "</div>" +
-      "<h4>Address</h4>" +
-      "<span>" + address + "</span>";
+    let { name, address } = props;
+    let html = "<div class=\"marker-title\">" + name + "</div>" +
+        "<h4>Address</h4>" +
+        "<span>" + address + "</span>";
 
-  return html;
+    return html;
+}
+
+export function addPopupToMap(feature) {
+    return new mapboxgl.Popup()
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML(format_html_marker(feature.properties))
+        .addTo(map);
 }
 
 // popup for marker
-map.on('click', 'carts', function(e) {
-  new mapboxgl.Popup()
-    .setLngLat(e.features[0].geometry.coordinates)
-    .setHTML(format_html_marker(e.features[0].properties))
-    .addTo(map);
+map.on('click', 'carts', function (e) {
+    module.exports.addMarkerToMap(e.features[0]);
 });
 
-map.on('click', 'carts-highlight', function(e) {
-  new mapboxgl.Popup()
-    .setLngLat(e.features[0].geometry.coordinates)
-    .setHTML(format_html_marker(e.features[0].properties))
-    .addTo(map);
+map.on('click', 'carts-highlight', function (e) {
+    module.exports.addMarkerToMap(e.features[0]);
 });
 
 // change the cursor to a pointer when the mouse is over the carts layer.
 map.on('mouseenter', 'carts', function () {
-   map.getCanvas().style.cursor = 'pointer';
+    map.getCanvas().style.cursor = 'pointer';
 });
 
 map.on('mouseenter', 'carts-highlight', function () {
-   map.getCanvas().style.cursor = 'pointer';
+    map.getCanvas().style.cursor = 'pointer';
 });
 
 // change it back to a pointer when it leaves.
 map.on('mouseleave', 'carts', function () {
-   map.getCanvas().style.cursor = '';
+    map.getCanvas().style.cursor = '';
 });
 
 map.on('mouseleave', 'carts-highlight', function () {
-   map.getCanvas().style.cursor = '';
+    map.getCanvas().style.cursor = '';
 });

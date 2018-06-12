@@ -3,9 +3,13 @@ let request = require('superagent');
 let Intro = require('./Intro');
 let Vendor = require('./Vendor');
 
+import { addPopupToMap } from './../app';
+
 class Sidebar extends React.Component {
   state = {
     results: [],
+    markers: [],
+    popUps: [],
     query: "",
     firstLoad: true
   };
@@ -14,15 +18,14 @@ class Sidebar extends React.Component {
     let results = []
     let query = this.state.query;
     request
-      .get('/search?q=' +  query)
-      .end(function(err, res) {
+      .get('/search?q=' + query)
+      .end(function (err, res) {
         if (err) {
           alert("error in fetching response");
         }
         else {
           this.setState({
             results: res.body,
-            firstLoad: false
           });
           this.plotOnMap();
         }
@@ -32,7 +35,7 @@ class Sidebar extends React.Component {
   build_geojson = (carts) => {
     return {
       "type": "FeatureCollection",
-      "features": carts.map(function(c) {
+      "features": carts.map(function (c) {
         return {
           "type": "Feature",
           "properties": {
@@ -43,7 +46,7 @@ class Sidebar extends React.Component {
           "geometry": {
             "type": "Point",
             "coordinates": [parseFloat(c.longitude),
-                            parseFloat(c.latitude)]
+            parseFloat(c.latitude)]
           }
         }
       })
@@ -53,47 +56,27 @@ class Sidebar extends React.Component {
   plotOnMap = (vendor) => {
     let map = this.props.map;
     let results = this.state.results;
-    let markers = [].concat.apply([], results.carts.map(function(c) {
-                        return {
-                          name: c.name,
-                          address: c.address,
-                          longitude: c.longitude,
-                          latitude: c.latitude
-                        }
-                      }));
 
-    let highlightMarkers, usualMarkers, usualgeoJSON, highlightgeoJSON;
+    this.markers = [].concat.apply([], results.carts.map(function (c) {
+      return {
+        name: c.name,
+        address: c.address,
+        longitude: c.longitude,
+        latitude: c.latitude
+      }
+    }));
 
-    if (vendor) {
-      highlightMarkers = markers.filter(m => m.name.toLowerCase() === vendor.toLowerCase());
-      usualMarkers = markers.filter(m => m.name.toLowerCase() !== vendor.toLowerCase());
-    } else {
-      usualMarkers = markers;
-    }
+    let usualMarkers, usualgeoJSON;
+
+    usualMarkers = this.markers;
 
     usualgeoJSON = this.build_geojson(usualMarkers);
-    if (highlightMarkers) {
-      highlightgeoJSON = this.build_geojson(highlightMarkers);
-    }
 
-    // clearing layers
-    if (map.getLayer("carts")) {
-        map.removeLayer("carts");
-    }
-    if (map.getSource("carts")) {
-        map.removeSource("carts");
-    }
-    if (map.getLayer("carts-highlight")) {
-        map.removeLayer("carts-highlight");
-    }
-    if (map.getSource("carts-highlight")) {
-        map.removeSource("carts-highlight");
-    }
-
-    map.addSource("carts", {
-      "type": "geojson",
-      "data": usualgeoJSON
-    }).addLayer({
+    if (this.state.firstLoad) {
+      map.addSource("carts", {
+        "type": "geojson",
+        "data": usualgeoJSON
+      }).addLayer({
         "id": "carts",
         "type": "circle",
         "interactive": true,
@@ -102,13 +85,44 @@ class Sidebar extends React.Component {
           'circle-radius': 8,
           'circle-color': '#072844'
         },
-    });
+      });
+
+      this.setState({
+        firstLoad: false,
+      });
+    } else {
+      map.getSource("carts").setData(usualgeoJSON);
+      map.getSource("carts-highlight").setData(null);
+    }
+  };
+
+  handleSearch = (e) => {
+    e.preventDefault();
+    this.fetchResults();
+  };
+
+  onChange = (e) => {
+    this.setState({ query: e.target.value });
+  };
+
+  handleHover = (vendor) => {
+    let map = this.props.map;
+
+    let highlightMarkers = this.markers.filter(m => m.name.toLowerCase() === vendor.toString().toLowerCase());
+    let usualMarkers = this.markers.filter(m => m.name.toLowerCase() !== vendor.toString().toLowerCase());
+
+    let usualgeoJSON = this.build_geojson(usualMarkers);
+    let highlightgeoJSON = this.build_geojson(highlightMarkers);
 
     if (highlightMarkers) {
-      map.addSource("carts-highlight", {
-        "type": "geojson",
-        "data": highlightgeoJSON
-      }).addLayer({
+      if (map.getSource('carts-highlight')) {
+        map.getSource('carts-highlight').setData(highlightgeoJSON);
+        map.getSource('carts').setData(usualgeoJSON);
+      } else {
+        map.addSource("carts-highlight", {
+          "type": "geojson",
+          "data": highlightgeoJSON
+        }).addLayer({
           "id": "carts-highlight",
           "type": "circle",
           "interactive": true,
@@ -117,65 +131,67 @@ class Sidebar extends React.Component {
             'circle-radius': 8,
             'circle-color': '#FAD8DE'
           },
-      });
+        });
+      }
     }
   };
 
-  handleSearch = (e) => {
-      e.preventDefault();
-      this.fetchResults();
-  };
+  selectVendor = (vendorName) => {
+    let map = this.props.map;
+    let vendorMarker = map.getSource('carts-highlight')._data.features[0];
 
-  onChange = (e) => {
-      this.setState({query: e.target.value});
-  };
+    this.state.popUps.forEach(popup => {
+      popup.remove();
+    });
 
-  handleHover = (vendorName) => {
-      this.plotOnMap(vendorName);
-  };
+    this.state.popUps = [];
+    this.state.popUps.push(addPopupToMap(vendorMarker));
 
-  render() {
-    if (this.state.firstLoad) {
-      return (
-        <div>
-          <div id="search-area">
-            <form onSubmit={this.handleSearch}>
-              <input type="text" value={query} onChange={this.onChange}
-                      placeholder="What do you want to eat?"/>
-              <button>Search!</button>
-            </form>
-          </div>
-          <Intro />
-        </div>
-      );
-    }
+    map.panTo(vendorMarker.geometry.coordinates);
+}
 
-    let query = this.state.query;
-    let resultsCount = this.state.results.hits || 0;
-    let results = this.state.results.carts || [];
-    let renderedResults = results.map((r, i) =>
-      <Vendor key={i} data={r} handleHover={this.handleHover} />
-    );
-
+render() {
+  if (this.state.firstLoad) {
     return (
       <div>
         <div id="search-area">
           <form onSubmit={this.handleSearch}>
             <input type="text" value={query} onChange={this.onChange}
-                    placeholder="What do you want to eat?"/>
+              placeholder="What do you want to eat?" />
             <button>Search!</button>
           </form>
         </div>
-        { resultsCount > 0 ?
-          <div id="results-area">
-            <h5>Found <span className="highlight">{ resultsCount }</span> vendors!
-            </h5>
-            <ul> { renderedResults } </ul>
-          </div>
-        : null}
+        <Intro />
       </div>
     );
   }
+
+  let query = this.state.query;
+  let resultsCount = this.state.results.hits || 0;
+  let results = this.state.results.carts || [];
+  let renderedResults = results.map((r, i) =>
+    <Vendor key={i} data={r} handleHover={this.handleHover} onClick={this.selectVendor.bind(r.name)} />
+  );
+
+  return (
+    <div>
+      <div id="search-area">
+        <form onSubmit={this.handleSearch}>
+          <input type="text" value={query} onChange={this.onChange}
+            placeholder="What do you want to eat?" />
+          <button>Search!</button>
+        </form>
+      </div>
+      {resultsCount > 0 ?
+        <div id="results-area">
+          <h5>Found <span className="highlight">{resultsCount}</span> vendors!
+            </h5>
+          <ul> {renderedResults} </ul>
+        </div>
+        : null}
+    </div>
+  );
+}
 }
 
 module.exports = Sidebar;
