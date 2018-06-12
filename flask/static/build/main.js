@@ -569,7 +569,7 @@ module.exports = warning;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.addPopupToMap = addPopupToMap;
 var React = __webpack_require__(1);
@@ -579,52 +579,52 @@ var Sidebar = __webpack_require__(26);
 mapboxgl.accessToken = 'pk.eyJ1Ijoic3Bpa2UtbWFkZGVuIiwiYSI6ImNqNnM0cnRrcDBqNDAzMnBid3dtem1wcXgifQ.2advMY_wpO8eu24eg6OeOQ';
 
 var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/light-v9',
-    center: [-122.656425, 45.520153],
-    zoom: 13
+  container: 'map',
+  style: 'mapbox://styles/mapbox/light-v9',
+  center: [-122.656425, 45.520153],
+  zoom: 13
 });
 
-ReactDOM.render(React.createElement(Sidebar, { map: map }), document.getElementById("sidebar"));
+ReactDOM.render(React.createElement(Sidebar, { map: map }), document.getElementById('sidebar'));
 
 function format_html_marker(props) {
-    var name = props.name,
-        address = props.address;
+  var name = props.name,
+      address = props.address;
 
-    var html = "<div class=\"marker-title\">" + name + "</div>" + "<h4>Address</h4>" + "<span>" + address + "</span>";
+  var html = '<div class="marker-title">' + name + '</div>' + '<h4>Address</h4>' + '<span>' + address + '</span>';
 
-    return html;
+  return html;
 }
 
 function addPopupToMap(feature) {
-    return new mapboxgl.Popup().setLngLat(feature.geometry.coordinates).setHTML(format_html_marker(feature.properties)).addTo(map);
+  return new mapboxgl.Popup().setLngLat(feature.geometry.coordinates).setHTML(format_html_marker(feature.properties)).addTo(map);
 }
 
 // popup for marker
 map.on('click', 'carts', function (e) {
-    module.exports.addMarkerToMap(e.features[0]);
+  module.exports.addMarkerToMap(e.features[0]);
 });
 
 map.on('click', 'carts-highlight', function (e) {
-    module.exports.addMarkerToMap(e.features[0]);
+  module.exports.addMarkerToMap(e.features[0]);
 });
 
 // change the cursor to a pointer when the mouse is over the carts layer.
 map.on('mouseenter', 'carts', function () {
-    map.getCanvas().style.cursor = 'pointer';
+  map.getCanvas().style.cursor = 'pointer';
 });
 
 map.on('mouseenter', 'carts-highlight', function () {
-    map.getCanvas().style.cursor = 'pointer';
+  map.getCanvas().style.cursor = 'pointer';
 });
 
 // change it back to a pointer when it leaves.
 map.on('mouseleave', 'carts', function () {
-    map.getCanvas().style.cursor = '';
+  map.getCanvas().style.cursor = '';
 });
 
 map.on('mouseleave', 'carts-highlight', function () {
-    map.getCanvas().style.cursor = '';
+  map.getCanvas().style.cursor = '';
 });
 
 /***/ }),
