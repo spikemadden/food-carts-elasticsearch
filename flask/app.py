@@ -12,7 +12,7 @@ def load_data():
         for id, cart in enumerate(d):
             es.index(index="yelp_data", doc_type="cart", id=id, body=cart)
 
-        print "total carts loaded: ", len(d)
+        print("total carts loaded: ", len(d))
 
     es.indices.refresh(index="yelp_data")
 
@@ -20,33 +20,36 @@ def load_data():
 def index():
     return render_template('map.html')
 
+
 @app.route("/search")
 def search():
     query_string = request.args.get('q')
     if not query_string:
-        return jsonify({
-            "status": "failure",
-            "msg": "Please provide a query"
-        })
-    try:
-        param = "*" + query_string + "*"
-
         query = json.dumps({
             "query": {
-                "query_string": {
-                    "query": param,
-                    "fields": ["name", "categories.alias", "categories.title"]
-                }
+                "match_all" : {}
             }
         })
 
-        res = es.search(index="yelp_data", size=1000, body=query)
+        res = es.search(index="yelp_data", size=200, body=query)
+    else:
+        try:
+            param = "*" + query_string + "*"
+            query = json.dumps({
+                "query": {
+                    "query_string": {
+                        "query": param,
+                        "fields": ["name", "categories.alias", "categories.title"]
+                    }
+                }
+            })
 
-    except Exception as e:
-        return jsonify({
-            "status": "failure",
-            "msg": "error in reaching elasticsearch"
-        })
+            res = es.search(index="yelp_data", size=200, body=query)
+        except Exception as e:
+            return jsonify({
+                "status": "failure",
+                "msg": "error in reaching elasticsearch"
+            })
 
     print("Got %d Hits:" % res['hits']['total'])
 

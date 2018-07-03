@@ -6,15 +6,24 @@ let Vendor = require('./Vendor');
 import { addPopupToMap } from './../app';
 
 class Sidebar extends React.Component {
-  state = {
-    results: [],
-    markers: [],
-    popUps: [],
-    query: "",
-    firstLoad: true
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      results: [],
+      markers: [],
+      popUps: [],
+      query: "",
+      firstLoad: true
+    };
+    this.fetchResults();
+  }
 
   fetchResults = () => {
+    this.state.popUps.forEach(popup => {
+      popup.remove();
+    });
+
     let results = []
     let query = this.state.query;
     request
@@ -35,7 +44,7 @@ class Sidebar extends React.Component {
   build_geojson = (carts) => {
     return {
       "type": "FeatureCollection",
-      "features": carts.map(function (c) {
+      "features": carts.map(c => {
         return {
           "type": "Feature",
           "properties": {
@@ -57,7 +66,7 @@ class Sidebar extends React.Component {
     let map = this.props.map;
     let results = this.state.results;
 
-    this.markers = [].concat.apply([], results.carts.map(function (c) {
+    this.markers = [].concat.apply([], results.carts.map(c => {
       return {
         name: c.name,
         address: c.address,
@@ -66,11 +75,8 @@ class Sidebar extends React.Component {
       }
     }));
 
-    let usualMarkers, usualgeoJSON;
-
-    usualMarkers = this.markers;
-
-    usualgeoJSON = this.build_geojson(usualMarkers);
+    let usualMarkers = this.markers;
+    let usualgeoJSON = this.build_geojson(usualMarkers);
 
     if (this.state.firstLoad) {
       map.addSource("carts", {
@@ -91,8 +97,13 @@ class Sidebar extends React.Component {
         firstLoad: false,
       });
     } else {
+      let empty = {
+        "type": "FeatureCollection",
+        "features": []
+      }
       map.getSource("carts").setData(usualgeoJSON);
-      map.getSource("carts-highlight").setData(null);
+      // reset highlighted carts
+      map.getSource("carts-highlight").setData(empty);
     }
   };
 
@@ -144,14 +155,21 @@ class Sidebar extends React.Component {
       popup.remove();
     });
 
+    // why doesn't setState work here
     this.state.popUps = [];
     this.state.popUps.push(addPopupToMap(vendorMarker));
 
     map.panTo(vendorMarker.geometry.coordinates);
-}
+  }
 
-render() {
-  if (this.state.firstLoad) {
+  render() {
+    let query = this.state.query;
+    let resultsCount = this.state.results.hits || 0;
+    let results = this.state.results.carts || [];
+    let renderedResults = results.map((r, i) =>
+      <Vendor key={i} data={r} handleHover={this.handleHover} onClick={this.selectVendor.bind(r.name)} />
+    );
+
     return (
       <div>
         <div id="search-area">
@@ -161,37 +179,16 @@ render() {
             <button>Search!</button>
           </form>
         </div>
-        <Intro />
+        {resultsCount >= 0 ?
+          <div id="results-area">
+            <h5>Found <span className="highlight">{resultsCount}</span> vendors!
+              </h5>
+            <ul> {renderedResults} </ul>
+          </div>
+          : null}
       </div>
     );
   }
-
-  let query = this.state.query;
-  let resultsCount = this.state.results.hits || 0;
-  let results = this.state.results.carts || [];
-  let renderedResults = results.map((r, i) =>
-    <Vendor key={i} data={r} handleHover={this.handleHover} onClick={this.selectVendor.bind(r.name)} />
-  );
-
-  return (
-    <div>
-      <div id="search-area">
-        <form onSubmit={this.handleSearch}>
-          <input type="text" value={query} onChange={this.onChange}
-            placeholder="What do you want to eat?" />
-          <button>Search!</button>
-        </form>
-      </div>
-      {resultsCount > 0 ?
-        <div id="results-area">
-          <h5>Found <span className="highlight">{resultsCount}</span> vendors!
-            </h5>
-          <ul> {renderedResults} </ul>
-        </div>
-        : null}
-    </div>
-  );
-}
 }
 
 module.exports = Sidebar;

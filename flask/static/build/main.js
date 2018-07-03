@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -261,20 +261,6 @@ process.umask = function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(14);
-} else {
-  module.exports = __webpack_require__(15);
-}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -331,7 +317,7 @@ module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -373,7 +359,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 module.exports = emptyFunction;
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -469,7 +455,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 };
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -493,6 +479,20 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports = __webpack_require__(13);
+} else {
+  module.exports = __webpack_require__(14);
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -507,7 +507,7 @@ module.exports = emptyObject;
 
 
 
-var emptyFunction = __webpack_require__(3);
+var emptyFunction = __webpack_require__(2);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -566,72 +566,6 @@ module.exports = warning;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.addPopupToMap = addPopupToMap;
-var React = __webpack_require__(1);
-var ReactDOM = __webpack_require__(17);
-var Sidebar = __webpack_require__(26);
-
-mapboxgl.accessToken = 'pk.eyJ1Ijoic3Bpa2UtbWFkZGVuIiwiYSI6ImNqNnM0cnRrcDBqNDAzMnBid3dtem1wcXgifQ.2advMY_wpO8eu24eg6OeOQ';
-
-var map = new mapboxgl.Map({
-  container: 'map',
-  style: 'mapbox://styles/mapbox/light-v9',
-  center: [-122.656425, 45.520153],
-  zoom: 13
-});
-
-ReactDOM.render(React.createElement(Sidebar, { map: map }), document.getElementById('sidebar'));
-
-function format_html_marker(props) {
-  var name = props.name,
-      address = props.address;
-
-  var html = '<div class="marker-title">' + name + '</div>' + '<h4>Address</h4>' + '<span>' + address + '</span>';
-
-  return html;
-}
-
-function addPopupToMap(feature) {
-  return new mapboxgl.Popup().setLngLat(feature.geometry.coordinates).setHTML(format_html_marker(feature.properties)).addTo(map);
-}
-
-// popup for marker
-map.on('click', 'carts', function (e) {
-  module.exports.addMarkerToMap(e.features[0]);
-});
-
-map.on('click', 'carts-highlight', function (e) {
-  module.exports.addMarkerToMap(e.features[0]);
-});
-
-// change the cursor to a pointer when the mouse is over the carts layer.
-map.on('mouseenter', 'carts', function () {
-  map.getCanvas().style.cursor = 'pointer';
-});
-
-map.on('mouseenter', 'carts-highlight', function () {
-  map.getCanvas().style.cursor = 'pointer';
-});
-
-// change it back to a pointer when it leaves.
-map.on('mouseleave', 'carts', function () {
-  map.getCanvas().style.cursor = '';
-});
-
-map.on('mouseleave', 'carts-highlight', function () {
-  map.getCanvas().style.cursor = '';
-});
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -644,9 +578,9 @@ map.on('mouseleave', 'carts-highlight', function () {
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(2);
+  var invariant = __webpack_require__(1);
   var warning = __webpack_require__(6);
-  var ReactPropTypesSecret = __webpack_require__(16);
+  var ReactPropTypesSecret = __webpack_require__(15);
   var loggedTypeFailures = {};
 }
 
@@ -696,7 +630,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -735,7 +669,7 @@ var ExecutionEnvironment = {
 module.exports = ExecutionEnvironment;
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -778,7 +712,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -851,7 +785,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -866,7 +800,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(19);
+var isTextNode = __webpack_require__(18);
 
 /*eslint-disable no-bitwise */
 
@@ -894,30 +828,75 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-/**
- * Check if `obj` is an object.
- *
- * @param {Object} obj
- * @return {Boolean}
- * @api private
- */
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addPopupToMap = addPopupToMap;
+var React = __webpack_require__(5);
+var ReactDOM = __webpack_require__(16);
+var Sidebar = __webpack_require__(25);
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+mapboxgl.accessToken = 'pk.eyJ1Ijoic3Bpa2UtbWFkZGVuIiwiYSI6ImNqNnM0cnRrcDBqNDAzMnBid3dtem1wcXgifQ.2advMY_wpO8eu24eg6OeOQ';
 
-function isObject(obj) {
-  return null !== obj && 'object' === (typeof obj === 'undefined' ? 'undefined' : _typeof(obj));
+var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/light-v9',
+  center: [-122.656425, 45.520153],
+  zoom: 13
+});
+
+map.on('load', function () {
+  ReactDOM.render(React.createElement(Sidebar, { map: map }), document.getElementById('sidebar'));
+});
+
+function format_html_marker(props) {
+  var name = props.name,
+      address = props.address;
+
+  var html = '<div class="marker-title">' + name + '</div>' + '<h4>Address</h4>' + '<span>' + address + '</span>';
+
+  return html;
 }
 
-module.exports = isObject;
+function addPopupToMap(feature) {
+  return new mapboxgl.Popup().setLngLat(feature.geometry.coordinates).setHTML(format_html_marker(feature.properties)).addTo(map);
+}
+
+// popup for marker
+map.on('click', 'carts', function (e) {
+  module.exports.addMarkerToMap(e.features[0]);
+});
+
+map.on('click', 'carts-highlight', function (e) {
+  module.exports.addMarkerToMap(e.features[0]);
+});
+
+// change the cursor to a pointer when the mouse is over the carts layer.
+map.on('mouseenter', 'carts', function () {
+  map.getCanvas().style.cursor = 'pointer';
+});
+
+map.on('mouseenter', 'carts-highlight', function () {
+  map.getCanvas().style.cursor = 'pointer';
+});
+
+// change it back to a pointer when it leaves.
+map.on('mouseleave', 'carts', function () {
+  map.getCanvas().style.cursor = '';
+});
+
+map.on('mouseleave', 'carts-highlight', function () {
+  map.getCanvas().style.cursor = '';
+});
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -934,10 +913,10 @@ module.exports = isObject;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var k = __webpack_require__(4),
-    n = __webpack_require__(2),
-    p = __webpack_require__(5),
-    q = __webpack_require__(3),
+var k = __webpack_require__(3),
+    n = __webpack_require__(1),
+    p = __webpack_require__(4),
+    q = __webpack_require__(2),
     r = "function" === typeof Symbol && Symbol.for,
     t = r ? Symbol.for("react.element") : 60103,
     u = r ? Symbol.for("react.portal") : 60106,
@@ -1053,7 +1032,7 @@ var X = { Children: { map: function map(a, b, e) {
     Z = Y && X || Y;module.exports = Z.default ? Z.default : Z;
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1074,12 +1053,12 @@ if (process.env.NODE_ENV !== "production") {
   (function () {
     'use strict';
 
-    var _assign = __webpack_require__(4);
-    var invariant = __webpack_require__(2);
-    var emptyObject = __webpack_require__(5);
+    var _assign = __webpack_require__(3);
+    var invariant = __webpack_require__(1);
+    var emptyObject = __webpack_require__(4);
     var warning = __webpack_require__(6);
-    var emptyFunction = __webpack_require__(3);
-    var checkPropTypes = __webpack_require__(8);
+    var emptyFunction = __webpack_require__(2);
+    var checkPropTypes = __webpack_require__(7);
 
     // TODO: this is special because it gets imported during build.
 
@@ -2530,7 +2509,7 @@ if (process.env.NODE_ENV !== "production") {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2548,7 +2527,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2583,14 +2562,14 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(18);
+  module.exports = __webpack_require__(17);
 } else {
-  module.exports = __webpack_require__(21);
+  module.exports = __webpack_require__(20);
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2610,15 +2589,15 @@ if (process.env.NODE_ENV === 'production') {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var aa = __webpack_require__(2),
-    ca = __webpack_require__(1),
-    m = __webpack_require__(9),
-    p = __webpack_require__(4),
-    v = __webpack_require__(3),
-    da = __webpack_require__(10),
-    ea = __webpack_require__(11),
-    fa = __webpack_require__(12),
-    ha = __webpack_require__(5);
+var aa = __webpack_require__(1),
+    ca = __webpack_require__(5),
+    m = __webpack_require__(8),
+    p = __webpack_require__(3),
+    v = __webpack_require__(2),
+    da = __webpack_require__(9),
+    ea = __webpack_require__(10),
+    fa = __webpack_require__(11),
+    ha = __webpack_require__(4);
 function A(a) {
   for (var b = arguments.length - 1, c = "https://reactjs.org/docs/error-decoder.html?invariant=" + a, d = 0; d < b; d++) {
     c += "&args[]=" + encodeURIComponent(arguments[d + 1]);
@@ -4664,7 +4643,7 @@ var vi = { default: qi },
     wi = vi && qi || vi;module.exports = wi.default ? wi.default : wi;
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4679,7 +4658,7 @@ var vi = { default: qi },
  * @typechecks
  */
 
-var isNode = __webpack_require__(20);
+var isNode = __webpack_require__(19);
 
 /**
  * @param {*} object The object to check.
@@ -4692,7 +4671,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4723,7 +4702,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4734,7 +4713,7 @@ module.exports = isNode;
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};if(process.env.NODE_ENV!=="production"){(function(){'use strict';var invariant=__webpack_require__(2);var React=__webpack_require__(1);var warning=__webpack_require__(6);var ExecutionEnvironment=__webpack_require__(9);var _assign=__webpack_require__(4);var emptyFunction=__webpack_require__(3);var checkPropTypes=__webpack_require__(8);var getActiveElement=__webpack_require__(10);var shallowEqual=__webpack_require__(11);var containsNode=__webpack_require__(12);var emptyObject=__webpack_require__(5);var hyphenateStyleName=__webpack_require__(22);var camelizeStyleName=__webpack_require__(24);// Relying on the `invariant()` implementation lets us
+ */var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};if(process.env.NODE_ENV!=="production"){(function(){'use strict';var invariant=__webpack_require__(1);var React=__webpack_require__(5);var warning=__webpack_require__(6);var ExecutionEnvironment=__webpack_require__(8);var _assign=__webpack_require__(3);var emptyFunction=__webpack_require__(2);var checkPropTypes=__webpack_require__(7);var getActiveElement=__webpack_require__(9);var shallowEqual=__webpack_require__(10);var containsNode=__webpack_require__(11);var emptyObject=__webpack_require__(4);var hyphenateStyleName=__webpack_require__(21);var camelizeStyleName=__webpack_require__(23);// Relying on the `invariant()` implementation lets us
 // have preserve the format and params in the www builds.
 !React?invariant(false,'ReactDOM was loaded before React. Make sure you load the React package before loading ReactDOM.'):void 0;var invokeGuardedCallback=function invokeGuardedCallback(name,func,context,a,b,c,d,e,f){this._hasCaughtError=false;this._caughtError=null;var funcArgs=Array.prototype.slice.call(arguments,3);try{func.apply(context,funcArgs);}catch(error){this._caughtError=error;this._hasCaughtError=true;}};{// In DEV mode, we swap out invokeGuardedCallback for a special version
 // that plays more nicely with the browser's DevTools. The idea is to preserve
@@ -7848,7 +7827,7 @@ var reactDom=ReactDOM$3.default?ReactDOM$3.default:ReactDOM$3;module.exports=rea
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7863,7 +7842,7 @@ var reactDom=ReactDOM$3.default?ReactDOM$3.default:ReactDOM$3;module.exports=rea
 
 
 
-var hyphenate = __webpack_require__(23);
+var hyphenate = __webpack_require__(22);
 
 var msPattern = /^ms-/;
 
@@ -7890,7 +7869,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7926,7 +7905,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7941,7 +7920,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(25);
+var camelize = __webpack_require__(24);
 
 var msPattern = /^-ms-/;
 
@@ -7969,7 +7948,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8004,7 +7983,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8012,7 +7991,7 @@ module.exports = camelize;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _app = __webpack_require__(7);
+var _app = __webpack_require__(12);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -8020,7 +7999,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var React = __webpack_require__(1);
+var React = __webpack_require__(5);
 var request = __webpack_require__(27);
 var Intro = __webpack_require__(33);
 var Vendor = __webpack_require__(34);
@@ -8028,24 +8007,16 @@ var Vendor = __webpack_require__(34);
 var Sidebar = function (_React$Component) {
   _inherits(Sidebar, _React$Component);
 
-  function Sidebar() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
+  function Sidebar(props) {
     _classCallCheck(this, Sidebar);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    var _this = _possibleConstructorReturn(this, (Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).call(this, props));
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      results: [],
-      markers: [],
-      popUps: [],
-      query: "",
-      firstLoad: true
-    }, _this.fetchResults = function () {
+    _this.fetchResults = function () {
+      _this.state.popUps.forEach(function (popup) {
+        popup.remove();
+      });
+
       var results = [];
       var query = _this.state.query;
       request.get('/search?q=' + query).end(function (err, res) {
@@ -8058,7 +8029,9 @@ var Sidebar = function (_React$Component) {
           this.plotOnMap();
         }
       }.bind(_this));
-    }, _this.build_geojson = function (carts) {
+    };
+
+    _this.build_geojson = function (carts) {
       return {
         "type": "FeatureCollection",
         "features": carts.map(function (c) {
@@ -8076,7 +8049,9 @@ var Sidebar = function (_React$Component) {
           };
         })
       };
-    }, _this.plotOnMap = function (vendor) {
+    };
+
+    _this.plotOnMap = function (vendor) {
       var map = _this.props.map;
       var results = _this.state.results;
 
@@ -8089,12 +8064,8 @@ var Sidebar = function (_React$Component) {
         };
       }));
 
-      var usualMarkers = void 0,
-          usualgeoJSON = void 0;
-
-      usualMarkers = _this.markers;
-
-      usualgeoJSON = _this.build_geojson(usualMarkers);
+      var usualMarkers = _this.markers;
+      var usualgeoJSON = _this.build_geojson(usualMarkers);
 
       if (_this.state.firstLoad) {
         map.addSource("carts", {
@@ -8115,15 +8086,26 @@ var Sidebar = function (_React$Component) {
           firstLoad: false
         });
       } else {
+        var empty = {
+          "type": "FeatureCollection",
+          "features": []
+        };
         map.getSource("carts").setData(usualgeoJSON);
-        map.getSource("carts-highlight").setData(null);
+        // reset highlighted carts
+        map.getSource("carts-highlight").setData(empty);
       }
-    }, _this.handleSearch = function (e) {
+    };
+
+    _this.handleSearch = function (e) {
       e.preventDefault();
       _this.fetchResults();
-    }, _this.onChange = function (e) {
+    };
+
+    _this.onChange = function (e) {
       _this.setState({ query: e.target.value });
-    }, _this.handleHover = function (vendor) {
+    };
+
+    _this.handleHover = function (vendor) {
       var map = _this.props.map;
 
       var highlightMarkers = _this.markers.filter(function (m) {
@@ -8156,7 +8138,9 @@ var Sidebar = function (_React$Component) {
           });
         }
       }
-    }, _this.selectVendor = function (vendorName) {
+    };
+
+    _this.selectVendor = function (vendorName) {
       var map = _this.props.map;
       var vendorMarker = map.getSource('carts-highlight')._data.features[0];
 
@@ -8164,40 +8148,28 @@ var Sidebar = function (_React$Component) {
         popup.remove();
       });
 
+      // why doesn't setState work here
       _this.state.popUps = [];
       _this.state.popUps.push((0, _app.addPopupToMap)(vendorMarker));
 
       map.panTo(vendorMarker.geometry.coordinates);
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    };
+
+    _this.state = {
+      results: [],
+      markers: [],
+      popUps: [],
+      query: "",
+      firstLoad: true
+    };
+    _this.fetchResults();
+    return _this;
   }
 
   _createClass(Sidebar, [{
     key: 'render',
     value: function render() {
       var _this2 = this;
-
-      if (this.state.firstLoad) {
-        return React.createElement(
-          'div',
-          null,
-          React.createElement(
-            'div',
-            { id: 'search-area' },
-            React.createElement(
-              'form',
-              { onSubmit: this.handleSearch },
-              React.createElement('input', { type: 'text', value: query, onChange: this.onChange,
-                placeholder: 'What do you want to eat?' }),
-              React.createElement(
-                'button',
-                null,
-                'Search!'
-              )
-            )
-          ),
-          React.createElement(Intro, null)
-        );
-      }
 
       var query = this.state.query;
       var resultsCount = this.state.results.hits || 0;
@@ -8224,7 +8196,7 @@ var Sidebar = function (_React$Component) {
             )
           )
         ),
-        resultsCount > 0 ? React.createElement(
+        resultsCount >= 0 ? React.createElement(
           'div',
           { id: 'results-area' },
           React.createElement(
@@ -8256,6 +8228,29 @@ var Sidebar = function (_React$Component) {
 module.exports = Sidebar;
 
 /***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Check if `obj` is an object.
+ *
+ * @param {Object} obj
+ * @return {Boolean}
+ * @api private
+ */
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function isObject(obj) {
+  return null !== obj && 'object' === (typeof obj === 'undefined' ? 'undefined' : _typeof(obj));
+}
+
+module.exports = isObject;
+
+/***/ }),
 /* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8283,7 +8278,7 @@ if (typeof window !== 'undefined') {
 
 var Emitter = __webpack_require__(28);
 var RequestBase = __webpack_require__(29);
-var isObject = __webpack_require__(13);
+var isObject = __webpack_require__(26);
 var ResponseBase = __webpack_require__(30);
 var Agent = __webpack_require__(32);
 
@@ -9372,7 +9367,7 @@ Emitter.prototype.hasListeners = function (event) {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var isObject = __webpack_require__(13);
+var isObject = __webpack_require__(26);
 
 /**
  * Expose `RequestBase`.
@@ -10316,7 +10311,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var React = __webpack_require__(1);
+var React = __webpack_require__(5);
 
 var Intro = function (_React$Component) {
   _inherits(Intro, _React$Component);
@@ -10389,7 +10384,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var React = __webpack_require__(1);
+var React = __webpack_require__(5);
 
 var Vendor = function (_React$Component) {
   _inherits(Vendor, _React$Component);

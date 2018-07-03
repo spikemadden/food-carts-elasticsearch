@@ -11,10 +11,13 @@ const map = new mapboxgl.Map({
   zoom: 13
 });
 
-ReactDOM.render(
-  <Sidebar map={map} />,
-  document.getElementById('sidebar')
-);
+map.on('load', () => {
+  ReactDOM.render(
+    <Sidebar map={map} />,
+    document.getElementById('sidebar')
+  );
+});
+
 
 function format_html_marker (props) {
   let { name, address } = props;
